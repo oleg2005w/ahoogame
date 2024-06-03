@@ -5,51 +5,31 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Hello world!
  *
  */
-public class ServerApp
-{
-    static Player player1;
-    static Player player2;
+public class ServerApp {
 
-    public static void main( String[] args )throws Exception
-    {
+    public static void main( String[] args )throws Exception {
         ServerSocket serverSocket = new ServerSocket(10001);
 
-//        ---------------------
-        System.out.println("SERVER RUNNING...");
-        Socket clientSocket = serverSocket.accept();
-        System.out.println("A CLIENT HAS CONNECTED!");
+        Map<String, Object> playerSocketMap = new HashMap<>();
 
-        InputStream is = clientSocket.getInputStream();
-        ObjectInputStream ois = new ObjectInputStream(is);
+        playerSocketMap.put("socket", new Socket("localhost", 10001));
+        playerSocketMap.put("player", new Player("jimmy", 0));
 
-        Frame frame1 = (Frame) ois.readObject();
-//        is.close();
-//        clientSocket.close();
+        System.out.println(playerSocketMap.size());
+        System.out.println(playerSocketMap.get("socket"));
+        System.out.println(playerSocketMap.get("jimmy"));
+        System.out.println(playerSocketMap.get("player"));
 
-        if (frame1.getHeader().equals("connect")){
-            player1 = (Player)frame1.getBody();
-            System.out.println("PLAYER CONNECTED: " + ((Player)frame1.getBody()).getNickName());
-        }
-//        ----------------------
-        Socket clientSocket1 = serverSocket.accept();
-        System.out.println("A CLIENT HAS CONNECTED!");
-
-        InputStream is1 = clientSocket1.getInputStream();
-        ObjectInputStream ois1 = new ObjectInputStream(is1);
-
-        Frame frame2 = (Frame) ois1.readObject();
-//        is.close();
-//        clientSocket.close();
-
-        if (frame2.getHeader().equals("connect")){
-            player2 = (Player)frame2.getBody();
-            System.out.println("PLAYER CONNECTED: " + ((Player)frame2.getBody()).getNickName());
-        }
-        System.out.println("Client sent: " +  frame1);
+        playerSocketMap.forEach(ServerApp::printPair);
+    }
+    public static void printPair(String key, Object value){
+        System.out.println(key + " : " + value);
     }
 }
