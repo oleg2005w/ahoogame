@@ -18,18 +18,18 @@ import java.util.function.Consumer;
 public class ServerApp {
 
     public static void main( String[] args )throws Exception {
-        List<Player> players = new ArrayList<>();
-        players.add(new Player("jimmy", 0));
-        players.add(new Player("marry", 10));
-        players.add(new Player("peter", 100));
-        players.forEach(ServerApp::printPair);
+        List<String> names = new ArrayList<>();
+        names.add("James");
+        names.add("Anton");
+        names.add("James");
+        names.add("Oleg");
+        names.add("John");
 
-        myUselessForEach(System.out::println);
-    }
-    public static void printPair(Player player){
-        System.out.println(player);
-    }
-    public static void myUselessForEach(Consumer<Object> cb){
-        cb.accept("This is test");
+//        names.forEach(System.out::println);
+//        names.forEach(name -> System.out.println(name));
+//        names.removeIf(name -> (name.charAt(0) == 'J'));
+        names.removeIf(new Remove<String>()::test);
+        names.forEach(new Printer<String>()::accept);
+
     }
 }
