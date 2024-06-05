@@ -5,8 +5,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Hello world!
@@ -15,21 +18,18 @@ import java.util.Map;
 public class ServerApp {
 
     public static void main( String[] args )throws Exception {
-        ServerSocket serverSocket = new ServerSocket(10001);
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("jimmy", 0));
+        players.add(new Player("marry", 10));
+        players.add(new Player("peter", 100));
+        players.forEach(ServerApp::printPair);
 
-        Map<String, Object> playerSocketMap = new HashMap<>();
-
-        playerSocketMap.put("socket", new Socket("localhost", 10001));
-        playerSocketMap.put("player", new Player("jimmy", 0));
-
-        System.out.println(playerSocketMap.size());
-        System.out.println(playerSocketMap.get("socket"));
-        System.out.println(playerSocketMap.get("jimmy"));
-        System.out.println(playerSocketMap.get("player"));
-
-        playerSocketMap.forEach(ServerApp::printPair);
+        myUselessForEach(System.out::println);
     }
-    public static void printPair(String key, Object value){
-        System.out.println(key + " : " + value);
+    public static void printPair(Player player){
+        System.out.println(player);
+    }
+    public static void myUselessForEach(Consumer<Object> cb){
+        cb.accept("This is test");
     }
 }
