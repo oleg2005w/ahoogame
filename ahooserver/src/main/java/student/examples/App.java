@@ -3,10 +3,14 @@ package student.examples;
 public class App {
 
     public static void main( String[] args )throws Exception {
-        Coordinate coordinate = new Coordinate(23,0);
-        System.out.println(coordinate);
+        TV tv1 = new TV(42);
+        Frige frige1 = new Frige(214);
 
-        Rectangle rectangle = new Rectangle(coordinate);
-        System.out.println(rectangle);
+        tv1.switchOn();
+        tv1.standBy();
+        frige1.switchOn();
+
+        System.out.println(tv1);
+        System.out.println(frige1);
     }
 }
